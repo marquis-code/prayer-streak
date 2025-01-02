@@ -22,12 +22,12 @@ export default defineNuxtConfig({
       enabled: true
     },
     meta: {
-      title: "Nextride",
+      title: "Prayer-streak",
       author: "Marquis",
       mobileAppIOS: false,
       mobileApp: true,
       description:
-        "Streamline your vehicle hire experience with our effortless booking process.",
+        "Build a Meaningful Prayer Journey",
       theme_color: "#27396B",
       background_color: "#27396B",
       display: "standalone",

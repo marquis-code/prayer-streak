@@ -2,7 +2,7 @@
   <div>
    <main>
     <NuxtPage />
-    <CoreFooter />
+    <AppFooter />
    </main>
   </div>
 </template>
