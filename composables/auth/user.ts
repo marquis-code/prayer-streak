@@ -73,20 +73,14 @@ export const useUser = () => {
   const createUser = (user: any) => {
     console.log(user, 'from cpomposebe')
     runtimeData.user.value = user?.user;
-    localStorageData.token.value = user?.accessToken;
-    runtimeData.token.value = user?.accessToken;
+    localStorageData.token.value = user?.token;
+    runtimeData.token.value = user?.token;
   };
 
-  // const updateUser = (user: any) => {
-  //   runtimeData.user.value = user;
-  //   localStorage.setItem('user', JSON.stringify(user));
-  //   localStorageData.user.value = user;
-  // };
   const updateUser = (newUser: any) => {
     // Retrieve the existing user data from local storage
     const existingUser = JSON.parse(localStorage.getItem('user') || '{}');
   
-    // Merge the existing user data with the new user data
     const updatedUser = { ...existingUser, ...newUser };
   
     // Update the runtimeData and localStorage with the new user data

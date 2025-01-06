@@ -43,8 +43,9 @@
           </button>
         </div>
   
-        <!-- Prayer Reminders List -->
-        <ol class="mt-4 divide-y divide-gray-50 text-sm/6 lg:col-span-7 xl:col-span-8">
+       <div class="border  w-full">
+         <!-- Prayer Reminders List -->
+         <ol v-if="streakList.length && !fetching" class="mt-4 divide-y divide-gray-50 text-sm/6 lg:col-span-7 xl:col-span-8">
           <li v-for="reminder in prayerReminders" :key="reminder.id" class="relative flex border-gray-50 gap-x-6 border-b-[0.5px] py-6 xl:static">
             <div class="flex-auto">
               <h3 class="font-semibold text-gray-900">{{ reminder.title }}</h3>
@@ -80,6 +81,35 @@
             </div>
           </li>
         </ol>
+
+        <section v-else-if="fetching && !streakList.length">
+      <div class="rounded-md p-4 w-full mx-auto mt-4 divide-y divide-gray-50 text-sm/6 lg:col-span-7 xl:col-span-8">
+        <div class="animate-pulse flex space-x-4">
+          <div class="flex-1 space-y-6 py-1">
+            <div class="h-44 bg-slate-200 rounded"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section v-else class="flex flex-col justify-between items-center space-y-2 mt-10 mt-4 divide-y divide-gray-50 text-sm/6 lg:col-span-7 xl:col-span-8">
+      <svg width="152" height="124" viewBox="0 0 152 124" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="76" cy="58" r="52" fill="#EAEAEA"/>
+        <circle cx="21" cy="25" r="5" fill="#BDBDBD"/>
+        <circle cx="18" cy="109" r="7" fill="#BDBDBD"/>
+        <circle cx="145" cy="41" r="7" fill="#BDBDBD"/>
+        <circle cx="134" cy="14" r="4" fill="#BDBDBD"/>
+        <g filter="url(#filter0_b_6853_118795)">
+          <rect x="52" y="34" width="48" height="48" rx="24" fill="#9D9D9D"/>
+          <path d="M85.9598 56.9707C86.0134 57.8009 86.0134 58.6607 85.9598 59.4909C85.6856 63.7332 82.3536 67.1125 78.1706 67.3905C76.7435 67.4854 75.2536 67.4852 73.8294 67.3905C73.339 67.3579 72.8044 67.2409 72.344 67.0513C71.8318 66.8403 71.5756 66.7348 71.4454 66.7508C71.3153 66.7668 71.1264 66.9061 70.7487 67.1846C70.0827 67.6757 69.2437 68.0285 67.9994 67.9982C67.3703 67.9829 67.0557 67.9752 66.9148 67.7351C66.774 67.495 66.9494 67.1626 67.3002 66.4978C67.7867 65.5758 68.095 64.5203 67.6279 63.6746C66.8234 62.4666 66.1401 61.036 66.0402 59.4909C65.9866 58.6607 65.9866 57.8009 66.0402 56.9707C66.3144 52.7284 69.6464 49.3491 73.8294 49.0711C75.0318 48.9911 75.2812 48.9786 76.5 49.0337" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M72.5 61H79.5M72.5 56H76" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M86 51.5C86 53.433 84.433 55 82.5 55C80.567 55 79 53.433 79 51.5C79 49.567 80.567 48 82.5 48C84.433 48 86 49.567 86 51.5Z" stroke="white" stroke-width="1.5"/>
+        </g>
+      </svg>
+      <h2 class="text-[#1D2739]">No Streaks found</h2>
+    </section>
+       </div>
       </div>
   
       <!-- Prayer Modal -->
@@ -187,46 +217,6 @@
       </div>
     </Dialog>
   </TransitionRoot>
-      <!-- <TransitionRoot appear :show="showModal" as="template">
-        <Dialog as="div" @close="showModal = false" class="relative z-10">
-          <div class="fixed inset-0 bg-black bg-opacity-25" />
-          <div class="fixed inset-0 overflow-y-auto">
-            <div class="flex min-h-full items-center justify-center p-4">
-              <DialogPanel class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                <DialogTitle as="h3" class="text-base font-medium leading-6 flex items-center gap-x-3 text-gray-900">
-                  Create Prayer Streak <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9b9b9b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                </DialogTitle>
-  
-                <form @submit.prevent="addPrayerReminder" class="mt-4">
-                  <div class="space-y-4">
-                    <div>
-                      <label class="block text-sm font-medium text-gray-700">Title</label>
-                      <input v-model="newReminder.title" type="text" class="mt-1 block w-full rounded-md border-[0.5px] border-gray-300 px-3 py-3 text-sm outline-none bg-gray-50" required />
-                    </div>
-                    <div>
-                      <label class="block text-sm font-medium text-gray-700">Date</label>
-                      <input v-model="newReminder.date" type="date" class="mt-1 block w-full rounded-md border-[0.5px] border-gray-300 px-3 py-3 text-sm outline-none bg-gray-50" required />
-                    </div>
-                    <div>
-                      <label class="block text-sm font-medium text-gray-700">Time</label>
-                      <input v-model="newReminder.time" type="time" class="mt-1 block w-full rounded-md border-[0.5px] border-gray-300 px-3 py-3 text-sm outline-none bg-gray-50" required />
-                    </div>
-                  </div>
-  
-                  <div class="mt-6 flex justify-end gap-3 pt-4">
-                    <button type="button" @click="showModal = false" class="rounded-md w-full border px-4 py-2.5 text-sm">
-                      Cancel
-                    </button>
-                    <button type="submit" class="rounded-md bg-indigo-600 px-4 py-2.5 w-full text-sm text-white hover:bg-indigo-500">
-                      Save
-                    </button>
-                  </div>
-                </form>
-              </DialogPanel>
-            </div>
-          </div>
-        </Dialog>
-      </TransitionRoot> -->
     </div>
   </template>
   

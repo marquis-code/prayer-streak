@@ -22,8 +22,7 @@ export const use_auth_login = () => {
     loading.value = true;
     const res = (await auth_api.$_login({
       email: credential.email.value,
-      password: credential.password.value,
-      app: 'tenant-app'
+      password: credential.password.value
     })) as any;
     loading.value = false;
     if (res.type !== "ERROR") {
@@ -35,7 +34,7 @@ export const use_auth_login = () => {
         toastType: "success",
         duration: 3000
       });
-      router.push("/dashboard");
+      router.push("/streak");
       // window.location.href = '/dashboard'
     } else {
       console.log(res, 'tes here')
